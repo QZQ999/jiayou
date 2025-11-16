@@ -12,6 +12,11 @@
 > ⚠️ **Windows用户注意**: 遇到编译错误? 阅读 `WINDOWS_用户必读.md`
 > 启动器会自动使用Windows兼容版本,无需安装C++编译器!
 
+**测试环境** (推荐):
+```bash
+python test_windows_setup.py
+```
+
 ### Linux/Mac 用户
 ```bash
 python run_dca.py
