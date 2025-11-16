@@ -81,15 +81,17 @@ class CheatScriptAI():
             if key != -1:
                 for i in range(5):
                     try:
-                        centroid, label  = kmeans2(cluster_index_position, 1, iter=20, minit='++',seed=np.random.randint(100), missing='raise')
+                        # Windows兼容: 移除seed参数(新版scipy不支持)
+                        centroid, label  = kmeans2(cluster_index_position, 1, iter=20, minit='++', missing='raise')
                         break
                     except:
                         pass
                     if i >= 4:
-                        centroid, label = kmeans2(cluster_index_position, 1, iter=20, minit='++',seed=np.random.randint(100), missing = 'warn')
+                        # Windows兼容: 移除seed参数(新版scipy不支持)
+                        centroid, label = kmeans2(cluster_index_position, 1, iter=20, minit='++', missing = 'warn')
                         print('处理空聚类')
                         break
-                        # assert False                
+                        # assert False
                 cluster_centroid.append(centroid)
             else:
                 # centroid, label = kmeans2(cluster_index_position, len(cluster_results[key]), iter=20, minit='points')
