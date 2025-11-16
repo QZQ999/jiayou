@@ -34,6 +34,13 @@ TypeError: type object got multiple values for keyword argument 'visible'
 **解决**: 配置中使用 `"draw_mode": "Null"` 关闭实时绘图
 **影响**: 不影响训练，只是禁用实时图表显示
 
+### 5. 日志文件句柄错误 ✓
+```
+AttributeError: 'mcom' object has no attribute 'file_handle'
+```
+**解决**: 修改 `VISUALIZE/mcom.py` 增加 file_handle 存在性检查 (自动修复)
+**影响**: draw_mode="Null" 时不再崩溃
+
 ---
 
 ## 🎯 推荐使用方式 (Windows)

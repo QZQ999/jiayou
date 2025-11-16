@@ -129,14 +129,17 @@ class mcom():
     '''
     def send(self, data):
         # step 1: send directive to draw process
-        if self.draw_process: 
+        if self.draw_process:
             self.draw_tcp_client.send_str(data)
 
 
         # step 2: add to file
         if self.draw_mode=='Threejs': return
+        # Windows兼容: 当draw_mode为Null时，file_handle不存在
+        if not hasattr(self, 'file_handle') or self.file_handle is None:
+            return
         self.file_handle.write(data)
-        if self.rapid_flush: 
+        if self.rapid_flush:
             self.file_handle.flush()
         elif self.flow_cnt>500:
             self.file_handle.flush()
