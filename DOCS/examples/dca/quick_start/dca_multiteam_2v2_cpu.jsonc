@@ -1,0 +1,86 @@
+{
+    // =====================================================
+    // DCA_MULTITEAM 双队对战 - CPU版本
+    // 适合: 学习多队竞争、快速测试
+    // 特点: 2支队伍、CPU运行、中等规模
+    // =====================================================
+
+    "config.py->GlobalConfig": {
+        "note": "dca_mt_2v2_cpu",        // 实验名称
+        "env_name": "dca_multiteam",     // 多队环境
+        "env_path": "MISSION.dca_multiteam",
+        "draw_mode": "Img",
+
+        // 运行配置
+        "num_threads": 16,               // 16个并行环境
+        "device": "cpu",                 // CPU运行
+        "fold": 1,
+
+        // 多队并行
+        "mt_parallel": false,            // CPU下不使用多队并行
+        "mt_act_order": "new_method",
+
+        // 训练配置
+        "n_parallel_frame": 10000000,
+        "max_n_episode": 100000,
+        "seed": 22333,
+
+        // 测试配置
+        "report_reward_interval": 16,
+        "test_interval": 512,
+        "test_epoch": 64,
+        "train_time_testing": true,
+
+        "backup_files": [
+            "ALGORITHM/conc_mt",
+            "MISSION/dca_multiteam"
+        ]
+    },
+
+    "MISSION.dca_multiteam.collective_assault_parallel_run.py->ScenarioConfig": {
+        // 多队配置
+        "N_TEAM": 2,                     // 2支队伍
+        "N_AGENT_EACH_TEAM": [20, 20],  // 每队20个智能体
+
+        // 环境参数
+        "size": 5,
+        "MaxEpisodeStep": 120,
+
+        // 环境特性
+        "random_jam_prob": 0.03,
+        "introduce_terrain": false,      // 简化场景
+        "init_distance": 2.5,
+
+        // 渲染
+        "render": true,                  // 观察两队对战
+
+        // 奖励
+        "half_death_reward": true,
+
+        // 算法 (两队使用相同算法进行自我博弈)
+        "TEAM_NAMES": [
+            "ALGORITHM.conc_mt.foundation->ReinforceAlgorithmFoundation",
+            "TEMP.TEAM2.ALGORITHM.conc_mt.foundation->ReinforceAlgorithmFoundation"
+        ]
+    },
+
+    // 队伍1配置
+    "ALGORITHM.conc_mt.foundation.py->AlgorithmConfig": {
+        "train_traj_needed": 16,
+        "n_focus_on": 3,
+        "lr": 0.0003,
+        "ppo_epoch": 16,
+        "gamma": 0.99,
+        "load_checkpoint": false
+    },
+
+    // 队伍2配置 (相同配置,独立训练)
+    "TEMP.TEAM2.ALGORITHM.conc_mt.foundation.py->AlgorithmConfig": {
+        "train_traj_needed": 16,
+        "n_focus_on": 3,
+        "lr": 0.0003,
+        "ppo_epoch": 16,
+        "gamma": 0.99,
+        "load_checkpoint": false
+    }
+}

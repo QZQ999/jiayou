@@ -1,0 +1,82 @@
+{
+    // =====================================================
+    // DCA 正式训练配置 - GPU版本
+    // 适合: 正式训练、性能测试
+    // 特点: 标准智能体数量、GPU加速、充分并行
+    // =====================================================
+
+    "config.py->GlobalConfig": {
+        "note": "dca_train_gpu",         // 实验名称
+        "env_name": "dca",               // DCA单队环境
+        "env_path": "MISSION.dca",
+        "draw_mode": "Img",
+
+        // 运行配置
+        "num_threads": 64,               // 64个并行环境
+        "device": "cuda",                // 使用GPU
+        "gpu_party": "off",
+        "fold": 1,
+
+        // 训练配置
+        "n_parallel_frame": 50000000,    // 5000万帧
+        "max_n_episode": 1000000,        // 100万episode
+        "seed": 22333,
+
+        // 测试配置
+        "report_reward_interval": 64,    // 每64个episode报告
+        "test_interval": 2048,           // 每2048个episode测试
+        "test_epoch": 256,               // 测试256个episode
+        "train_time_testing": true,
+
+        "backup_files": [
+            "ALGORITHM/conc_4hist",
+            "MISSION/dca"
+        ]
+    },
+
+    "MISSION.dca.collective_assault_parallel_run.py->ScenarioConfig": {
+        // 环境参数
+        "size": 5,
+        "MaxEpisodeStep": 180,           // 标准时长
+
+        // 智能体数量
+        "num_guards": 50,                // 50个RL守卫
+        "num_attackers": 55,             // 55个脚本AI攻击者
+
+        // 物理参数
+        "agent_acc": 3.0,
+        "agent_max_speed": 1.0,
+        "agent_max_rot": 0.17,
+        "agent_shoot_base_radius": 0.4,
+
+        // 环境特性
+        "random_jam_prob": 0.05,         // 5%干扰
+        "introduce_terrain": true,       // 启用地形
+        "terrain_parameters": [0.15, 0.2],
+        "init_distance": 4,
+
+        // 渲染 (训练时关闭以提速)
+        "render": false,
+
+        // 奖励
+        "half_death_reward": true,
+        "REWARD_DEBUG": true,
+        "REWARD_DEBUG_Value": 3,
+
+        // 算法
+        "TEAM_NAMES": [
+            "ALGORITHM.conc_4hist.foundation->ReinforceAlgorithmFoundation"
+        ]
+    },
+
+    "ALGORITHM.conc_4hist.foundation.py->AlgorithmConfig": {
+        "train_traj_needed": 64,         // 充分的训练数据
+        "n_focus_on": 3,
+        "lr": 0.0005,                    // 标准学习率
+        "ppo_epoch": 24,
+        "gamma_in_reward_forwarding": true,
+        "gamma_in_reward_forwarding_value": 0.95,
+        "gamma": 0.99,
+        "load_checkpoint": false
+    }
+}
