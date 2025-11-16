@@ -21,6 +21,12 @@ ModuleNotFoundError: No module named 'UTIL.shm_pool'
 ```
 **解决**: 已创建纯Python版本 (自动使用)
 
+### 3. Scipy兼容性错误 ✓
+```
+TypeError: kmeans2() got an unexpected keyword argument 'seed'
+```
+**解决**: 已移除不兼容的seed参数 (自动修复)
+
 ---
 
 ## 🎯 推荐使用方式 (Windows)

@@ -277,12 +277,14 @@ class CheatScriptAI():
             policy_agents_position.append(agent.pos)
         for i in range(5):
             try:    # its here
-                team_centroid, team_labels = kmeans2(policy_agents_position, num_team, iter=20, minit='++',seed=np.random.randint(100), missing = 'raise')
+                # Windows兼容: 移除seed参数(新版scipy不支持)
+                team_centroid, team_labels = kmeans2(policy_agents_position, num_team, iter=20, minit='++', missing = 'raise')
                 break
             except:
                 pass
             if i >= 4:
-                team_centroid, team_labels = kmeans2(policy_agents_position, num_team, iter=20, minit='++',seed=np.random.randint(100), missing = 'warn')
+                # Windows兼容: 移除seed参数(新版scipy不支持)
+                team_centroid, team_labels = kmeans2(policy_agents_position, num_team, iter=20, minit='++', missing = 'warn')
                 print('处理空聚类')
                 break
 
