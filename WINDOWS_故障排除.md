@@ -27,6 +27,13 @@ TypeError: kmeans2() got an unexpected keyword argument 'seed'
 ```
 **解决**: 已移除不兼容的seed参数 (自动修复)
 
+### 4. Matplotlib兼容性错误 ✓
+```
+TypeError: type object got multiple values for keyword argument 'visible'
+```
+**解决**: 配置中使用 `"draw_mode": "Null"` 关闭实时绘图
+**影响**: 不影响训练，只是禁用实时图表显示
+
 ---
 
 ## 🎯 推荐使用方式 (Windows)
