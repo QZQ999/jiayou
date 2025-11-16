@@ -252,7 +252,15 @@ class DCALauncher:
         # 运行实验
         print(f"\n{GREEN}🚀 正在启动实验...{END}\n")
 
-        cmd = [sys.executable, 'main.py', '--cfg', temp_config]
+        # Windows平台使用main_windows.py (无需C++编译器)
+        import platform
+        if platform.system() == 'Windows':
+            main_script = 'main_windows.py'
+            print(f"{CYAN}检测到Windows平台，使用 {main_script}{END}")
+        else:
+            main_script = 'main.py'
+
+        cmd = [sys.executable, main_script, '--cfg', temp_config]
 
         try:
             subprocess.run(cmd, cwd=str(self.root_dir))
