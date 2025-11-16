@@ -29,8 +29,15 @@ python run_dca.py
 **优势**:
 - ✅ 无需任何配置
 - ✅ 自动使用Windows版本
+- ✅ 自动使用纯Python模块(无编译)
 - ✅ 交互式界面
 - ✅ 7种预配置实验
+
+**已创建的纯Python模块**:
+- ✅ `UTIL/win_pool.py` - Windows进程池
+- ✅ `MISSION/dca/cython_func.py` - 激光命中检测
+- ✅ `MISSION/dca_multiteam/cython_func.py` - 多队版本
+- ✅ `ALGORITHM/conc_4hist/cython_func.py` - 历史观察滚动
 
 ---
 
