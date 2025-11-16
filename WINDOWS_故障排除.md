@@ -41,6 +41,14 @@ AttributeError: 'mcom' object has no attribute 'file_handle'
 **解决**: 修改 `VISUALIZE/mcom.py` 增加 file_handle 存在性检查 (自动修复)
 **影响**: draw_mode="Null" 时不再崩溃
 
+### 6. Windows文件名非法字符 ✓
+```
+RuntimeError: File ...model_3_{'win_rate': 0.0, 'mean_reward': -0.140625}.pt cannot be opened.
+```
+**解决**: 修改 `ALGORITHM/conc_4hist/foundation.py` 使用Windows兼容的文件名格式 (自动修复)
+**原因**: Windows文件名不允许 `:` `,` `{}` 等字符
+**现在**: 文件名格式为 `model_3_win_rate=0.0000_mean_reward=-0.1406.pt`
+
 ---
 
 ## 🎯 推荐使用方式 (Windows)

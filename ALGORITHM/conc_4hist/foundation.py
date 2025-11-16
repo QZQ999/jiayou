@@ -143,9 +143,19 @@ class ReinforceAlgorithmFoundation(object):
         Get event from hmp task runner, save model now!
     '''
     def on_notify(self, message, **kargs):
+        # Windows兼容: 文件名不能包含 : , {} 等特殊字符
+        # 将字典转换为安全的文件名格式
+        info_parts = []
+        for key, value in kargs.items():
+            if isinstance(value, float):
+                info_parts.append(f"{key}={value:.4f}")
+            else:
+                info_parts.append(f"{key}={value}")
+        info_str = "_".join(info_parts) if info_parts else None
+
         self.save_model(
             update_cnt = self.batch_traj_manager.update_cnt,
-            info=str(kargs)
+            info=info_str
         )
         
     '''
@@ -166,7 +176,10 @@ class ReinforceAlgorithmFoundation(object):
 
             # dir 2
             info = str(update_cnt) if info is None else ''.join([str(update_cnt),'_',info])
-            pt_path = '%s/history_cpt/model_%s.pt'%(logdir, info)
+            # Windows兼容: 确保history_cpt目录存在
+            history_dir = '%s/history_cpt'%logdir
+            os.makedirs(history_dir, exist_ok=True)
+            pt_path = '%s/model_%s.pt'%(history_dir, info)
             torch.save(self.policy.state_dict(), pt_path)
             try: os.remove(flag)
             except: pass
